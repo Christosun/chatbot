@@ -29,7 +29,7 @@
       msgInput.value = '';
 
       try {
-        const res = await fetch('https://your-n8n-domain/webhook/chat-ai', {
+        const res = await fetch('https://n8n.flotech.co.id/webhook-test/chat-ai', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ message })
