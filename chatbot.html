@@ -18,30 +18,31 @@
   </form>
 
   <script>
-    const chatBox = document.getElementById('chatBox');
-    const chatForm = document.getElementById('chatForm');
-    const msgInput = document.getElementById('msg');
+  const chatBox = document.getElementById('chatBox');
+  const chatForm = document.getElementById('chatForm');
+  const msgInput = document.getElementById('msg');
 
-    chatForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const message = msgInput.value;
-      chatBox.innerHTML += <p class="user"><b>Kamu:</b> ${message}</p>;
-      msgInput.value = '';
+  chatForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const message = msgInput.value;
+    chatBox.innerHTML += `<p class="user"><b>Kamu:</b> ${message}</p>`;
+    msgInput.value = '';
 
-      try {
-        const res = await fetch('https://n8n.flotech.co.id/webhook-test/chat-ai', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message })
-        });
+    try {
+      const res = await fetch('https://n8n.flotech.co.id/webhook-test/chat-ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message })
+      });
 
-        const data = await res.json();
-        chatBox.innerHTML += <p class="bot"><b>Bot:</b> ${data.reply}</p>;
-        chatBox.scrollTop = chatBox.scrollHeight;
-      } catch (err) {
-        chatBox.innerHTML += <p class="bot"><b>Bot:</b> Gagal membalas.</p>;
-      }
-    });
-  </script>
+      const data = await res.json();
+      chatBox.innerHTML += `<p class="bot"><b>Bot:</b> ${data.reply}</p>`;
+      chatBox.scrollTop = chatBox.scrollHeight;
+    } catch (err) {
+      chatBox.innerHTML += `<p class="bot"><b>Bot:</b> Gagal membalas.</p>`;
+    }
+  });
+</script>
+
 </body>
 </html>
