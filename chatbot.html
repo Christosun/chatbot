@@ -22,11 +22,39 @@
   const chatForm = document.getElementById('chatForm');
   const msgInput = document.getElementById('msg');
 
-  chatForm.addEventListener('submit', async (e) => {
+  // Kirim saat tekan Enter
+  msgInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  // Tangani klik tombol (untuk pengguna yang tidak tekan Enter)
+  chatForm.addEventListener('submit', function(e) {
     e.preventDefault();
-    const message = msgInput.value;
+    sendMessage();
+  });
+
+  async function sendMessage() {
+    const message = msgInput.value.trim();
+    if (!message) return;
+
     chatBox.innerHTML += `<p class="user"><b>Kamu:</b> ${message}</p>`;
     msgInput.value = '';
+
+    // Tambahkan status "Bot sedang mengetik..."
+    const typingElem = document.createElement('p');
+    typingElem.className = 'bot';
+    chatBox.appendChild(typingElem);
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    // Mulai animasi titik-titik
+    let dots = '';
+    const interval = setInterval(() => {
+      dots = dots.length < 3 ? dots + '.' : '';
+      typingElem.innerHTML = `<b>Bot:</b> sedang mengetik${dots}`;
+    }, 500);
 
     try {
       const res = await fetch('https://n8n.flotech.co.id/webhook-test/chat-ai', {
@@ -36,13 +64,17 @@
       });
 
       const data = await res.json();
-      chatBox.innerHTML += `<p class="bot"><b>Bot:</b> ${data.reply}</p>`;
+
+      clearInterval(interval); // Hentikan animasi
+      typingElem.innerHTML = `<b>Bot:</b> ${data.reply}`;
       chatBox.scrollTop = chatBox.scrollHeight;
     } catch (err) {
-      chatBox.innerHTML += `<p class="bot"><b>Bot:</b> Gagal membalas.</p>`;
+      clearInterval(interval);
+      typingElem.innerHTML = `<b>Bot:</b> Gagal membalas.`;
     }
-  });
+  }
 </script>
+
 
 </body>
 </html>
