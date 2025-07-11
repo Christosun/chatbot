@@ -1,80 +1,169 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-  <title>WebChat AI</title>
+  <meta charset="UTF-8">
+  <title>AI Monitoring Chat</title>
   <style>
-    body { font-family: sans-serif; padding: 20px; }
-    #chatBox { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: scroll; margin-bottom: 10px; }
-    .user { color: blue; }
-    .bot { color: green; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #f0f2f5, #e6ecf0);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .chat-container {
+      width: 100%;
+      max-width: 500px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+
+    h2 {
+      margin-top: 0;
+      text-align: center;
+      color: #333;
+    }
+
+    #chatBox {
+      border: 1px solid #ddd;
+      padding: 10px;
+      height: 350px;
+      overflow-y: scroll;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .message {
+      margin: 8px 0;
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .user {
+      justify-content: flex-end;
+    }
+
+    .user .bubble {
+      background-color: #DCF8C6;
+      color: #000;
+      border-radius: 10px 10px 0 10px;
+    }
+
+    .bot .bubble {
+      background-color: #f1f0f0;
+      color: #000;
+      border-radius: 10px 10px 10px 0;
+    }
+
+    .bubble {
+      padding: 10px 14px;
+      max-width: 75%;
+      display: inline-block;
+    }
+
+    form {
+      display: flex;
+      gap: 10px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
   </style>
 </head>
 <body>
-  <h2>Web Chat - AI Monitoring Assistant</h2>
-  <div id="chatBox"></div>
-  <form id="chatForm">
-    <input type="text" id="msg" placeholder="Tulis pesan..." required />
-    <button type="submit">Kirim</button>
-  </form>
+  <div class="chat-container">
+    <h2>Monitoring AI Chat</h2>
+    <div id="chatBox"></div>
+    <form id="chatForm">
+      <input type="text" id="msg" placeholder="Tulis pesan..." required />
+      <button type="submit">Kirim</button>
+    </form>
+  </div>
 
   <script>
-  const chatBox = document.getElementById('chatBox');
-  const chatForm = document.getElementById('chatForm');
-  const msgInput = document.getElementById('msg');
+    const chatBox = document.getElementById('chatBox');
+    const chatForm = document.getElementById('chatForm');
+    const msgInput = document.getElementById('msg');
 
-  // Kirim saat tekan Enter
-  msgInput.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
+    msgInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    chatForm.addEventListener('submit', function (e) {
       e.preventDefault();
       sendMessage();
-    }
-  });
+    });
 
-  // Tangani klik tombol (untuk pengguna yang tidak tekan Enter)
-  chatForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    sendMessage();
-  });
-
-  async function sendMessage() {
-    const message = msgInput.value.trim();
-    if (!message) return;
-
-    chatBox.innerHTML += `<p class="user"><b>Kamu:</b> ${message}</p>`;
-    msgInput.value = '';
-
-    // Tambahkan status "Bot sedang mengetik..."
-    const typingElem = document.createElement('p');
-    typingElem.className = 'bot';
-    chatBox.appendChild(typingElem);
-    chatBox.scrollTop = chatBox.scrollHeight;
-
-    // Mulai animasi titik-titik
-    let dots = '';
-    const interval = setInterval(() => {
-      dots = dots.length < 3 ? dots + '.' : '';
-      typingElem.innerHTML = `<b>Bot:</b> sedang mengetik${dots}`;
-    }, 500);
-
-    try {
-      const res = await fetch('https://n8n.flotech.co.id/webhook/chat-ai', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message })
-      });
-
-      const data = await res.json();
-
-      clearInterval(interval); // Hentikan animasi
-      typingElem.innerHTML = `<b>Bot:</b> ${data.reply}`;
+    function addMessage(sender, text) {
+      const msg = document.createElement('div');
+      msg.className = `message ${sender}`;
+      msg.innerHTML = `<div class="bubble"><b>${sender === 'user' ? 'Kamu' : 'Bot'}:</b><br>${text}</div>`;
+      chatBox.appendChild(msg);
       chatBox.scrollTop = chatBox.scrollHeight;
-    } catch (err) {
-      clearInterval(interval);
-      typingElem.innerHTML = `<b>Bot:</b> Gagal membalas.`;
     }
-  }
-</script>
 
+    async function sendMessage() {
+      const message = msgInput.value.trim();
+      if (!message) return;
 
+      addMessage('user', message);
+      msgInput.value = '';
+
+      const typingMsg = document.createElement('div');
+      typingMsg.className = 'message bot';
+      const typingBubble = document.createElement('div');
+      typingBubble.className = 'bubble';
+      typingMsg.appendChild(typingBubble);
+      chatBox.appendChild(typingMsg);
+
+      let dots = '';
+      const interval = setInterval(() => {
+        dots = dots.length < 3 ? dots + '.' : '';
+        typingBubble.innerHTML = `<b>Bot:</b><br>Mengetik${dots}`;
+      }, 500);
+
+      try {
+        const res = await fetch('https://n8n.flotech.co.id/webhook-test/chat-ai', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message })
+        });
+
+        const data = await res.json();
+        clearInterval(interval);
+        typingMsg.remove();
+        addMessage('bot', data.reply);
+      } catch (err) {
+        clearInterval(interval);
+        typingBubble.innerHTML = `<b>Bot:</b><br>Gagal membalas 😢`;
+      }
+    }
+  </script>
 </body>
 </html>
