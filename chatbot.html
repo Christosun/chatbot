@@ -10,7 +10,7 @@
   </style>
 </head>
 <body>
-  <h2>Chat AI Agent (n8n)</h2>
+  <h2>Web Chat - AI Monitoring Assistant</h2>
   <div id="chatBox"></div>
   <form id="chatForm">
     <input type="text" id="msg" placeholder="Tulis pesan..." required />
@@ -57,7 +57,7 @@
     }, 500);
 
     try {
-      const res = await fetch('https://n8n.flotech.co.id/webhook-test/chat-ai', {
+      const res = await fetch('https://n8n.flotech.co.id/webhook/chat-ai', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message })
