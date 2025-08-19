@@ -225,6 +225,11 @@
         typingBubble.innerHTML = `<b>Bot:</b><br>Gagal membalas 😢`;
       }
     }
+
+    // Tambahkan pesan pembuka saat halaman load
+    window.onload = () => {
+      addMessage('bot', 'Hallo selamat datang di monitoring assistant. Silahkan dapat menanyakan apa saja khususnya seputar dashboard dan data monitoring 🙏.');
+    };
   </script>
 </body>
 </html>
