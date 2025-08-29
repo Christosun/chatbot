@@ -138,12 +138,12 @@
 </head>
 <body>
   <div class="chat-container">
-    <button id="themeToggle" title="Ganti Mode">🌙</button>
+    <button id="themeToggle" title="Change Mode">🌙</button>
     <h2>AI Monitoring Assistant</h2>
     <div id="chatBox"></div>
     <form id="chatForm">
-      <input type="text" id="msg" placeholder="Tulis pesan..." required />
-      <button type="submit">Kirim</button>
+      <input type="text" id="msg" placeholder="Write a message..." required />
+      <button type="submit">Send</button>
     </form>
   </div>
 
@@ -199,7 +199,7 @@
 
       msg.innerHTML = `
         <div class="bubble">
-          <b>${sender === 'user' ? 'Kamu' : 'Bot'}:</b><br>${content}
+          <b>${sender === 'user' ? 'User' : 'Bot'}:</b><br>${content}
         </div>
       `;
 
@@ -224,7 +224,7 @@
       let dots = '';
       const interval = setInterval(() => {
         dots = dots.length < 3 ? dots + '.' : '';
-        typingBubble.innerHTML = `<b>Bot:</b><br>Mengetik${dots}`;
+        typingBubble.innerHTML = `<b>Bot:</b><br>Typing${dots}`;
       }, 500);
 
       try {
@@ -240,7 +240,7 @@
         addMessage('bot', data.reply);
       } catch (err) {
         clearInterval(interval);
-        typingBubble.innerHTML = `<b>Bot:</b><br>Gagal membalas 😢`;
+        typingBubble.innerHTML = `<b>Bot:</b><br>Failed to reply 😢`;
       }
     }
 
