@@ -52,7 +52,7 @@
 
     .chat-container {
       width: 100%;
-      max-width: 500px;
+      max-width: 600px;
       background: var(--card-bg);
       border-radius: 12px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -60,7 +60,7 @@
       position: relative;
       display: flex;
       flex-direction: column;
-      height: 100vh;          /* penuh layar */
+      height: 100dvh;          /* penuh layar */
       max-height: none;
       box-sizing: border-box;
     }
@@ -173,7 +173,16 @@
     button[type="submit"]:hover {
       background-color: #45a049;
     }
-
+    /* Desktop: kasih ruang atas-bawah */
+    @media (min-width: 768px) {
+      body {
+        padding: 20px 0;    /* ada ruang sedikit */
+      }
+      .chat-container {
+        height: calc(100dvh - 40px); /* kurangi tinggi biar ada jarak */
+        border-radius: 16px;
+      }
+    }
     /* Responsif untuk layar kecil */
     @media (max-width: 480px) {
       h2 {
