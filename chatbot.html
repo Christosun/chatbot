@@ -2,41 +2,27 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Monitoring Assistant</title>
   <style>
     :root {
-      /*--bg-color: #f0f2f5;*/
       --bg-color: linear-gradient(to bottom, #464646, #f0f2f5);
       --card-bg: white;
       --chat-bg: #f9f9f9;
       --text-color: #000;
       --bot-bubble: #f1f0f0;
       --user-bubble: #DCF8C6;
-      /* gradient untuk light mode */
-      /*--title-gradient: linear-gradient(90deg, #104bc2, #2aa24e);*/
       --title-gradient: radial-gradient(circle, #4CAF50, #000000);
     }
 
     body.dark-mode {
-      /*--bg-color: #1e1e1e;*/
       --bg-color: linear-gradient(to bottom, #1e1e1e, #464646);
       --card-bg: #2c2c2c;
       --chat-bg: #333;
       --text-color: #eee;
       --bot-bubble: #444;
       --user-bubble: #DCF8C6;
-      /* gradient untuk dark mode */
-      /*--title-gradient: linear-gradient(90deg, #61d87b, #fffb00);*/
       --title-gradient: radial-gradient(circle, #4CAF50, #ffffff);
-    }
-    h2 {
-      margin-top: 0;
-      text-align: center;
-      /* trik teks gradient */
-      background: var(--title-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
     }
 
     body {
@@ -45,10 +31,22 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
       margin: 0;
+      padding: 10px;
       color: var(--text-color);
       transition: background 0.3s, color 0.3s;
+      box-sizing: border-box;
+    }
+
+    h2 {
+      margin-top: 0;
+      text-align: center;
+      background: var(--title-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 22px;
     }
 
     .chat-container {
@@ -57,14 +55,18 @@
       background: var(--card-bg);
       border-radius: 12px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      padding: 20px;
+      padding: 16px;
       position: relative;
+      display: flex;
+      flex-direction: column;
+      height: 90vh;
+      max-height: 700px;
     }
 
     #themeToggle {
       position: absolute;
-      top: 29px;
-      right: 20px;
+      top: 20px;
+      right: 16px;
       width: 36px;
       height: 18px;
       background: linear-gradient(135deg, #000000, #929191);
@@ -86,7 +88,6 @@
       transition: transform 0.4s ease, background 0.4s ease;
     }
 
-    /* mode dark */
     body.dark-mode #themeToggle {
       background: linear-gradient(135deg, #7d7f7c, #e7e7e7);
     }
@@ -97,10 +98,10 @@
     }
 
     #chatBox {
+      flex: 1;
       border: 1px solid #ddd;
       padding: 10px;
-      height: 350px;
-      overflow-y: scroll;
+      overflow-y: auto;
       background-color: var(--chat-bg);
       border-radius: 8px;
       margin-bottom: 10px;
@@ -133,13 +134,14 @@
       display: inline-block;
       word-wrap: break-word;
     }
+
     .bubble p {
       margin: 0;
     }
 
     form {
       display: flex;
-      gap: 10px;
+      gap: 8px;
     }
 
     input[type="text"] {
@@ -149,6 +151,7 @@
       border: 1px solid #ccc;
       background-color: transparent;
       color: var(--text-color);
+      font-size: 14px;
     }
 
     input[type="text"]::placeholder {
@@ -156,28 +159,49 @@
     }
 
     button[type="submit"] {
-      padding: 10px 20px;
+      padding: 10px 16px;
       background-color: #4CAF50;
       border: none;
       color: white;
       border-radius: 8px;
       cursor: pointer;
+      font-size: 14px;
     }
 
     button[type="submit"]:hover {
       background-color: #45a049;
     }
+
+    /* Responsif untuk layar kecil */
+    @media (max-width: 480px) {
+      h2 {
+        font-size: 18px;
+      }
+      .chat-container {
+        padding: 12px;
+        height: 95vh;
+      }
+      button[type="submit"] {
+        padding: 8px 12px;
+        font-size: 13px;
+      }
+      input[type="text"] {
+        font-size: 13px;
+      }
+      #themeToggle {
+        top: 16px;
+        right: 12px;
+        transform: scale(0.9);
+      }
+    }
   </style>
-
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
   <div class="chat-container">
     <button id="themeToggle" title="Change Mode">
       <span class="toggle-circle"></span>
     </button>
-
     <h2>AI Monitoring Assistant</h2>
     <div id="chatBox"></div>
     <form id="chatForm">
@@ -192,14 +216,11 @@
     const msgInput = document.getElementById('msg');
     const themeToggle = document.getElementById('themeToggle');
 
-    // Handle dark mode toggle
     function setTheme(mode) {
       if (mode === 'dark') {
         document.body.classList.add('dark-mode');
-        themeToggle.textContent = '☀️';
       } else {
         document.body.classList.remove('dark-mode');
-        themeToggle.textContent = '🌙';
       }
       localStorage.setItem('theme', mode);
     }
@@ -209,39 +230,19 @@
       setTheme(isDark ? 'light' : 'dark');
     });
 
-    // Load saved theme
     const savedTheme = localStorage.getItem('theme') || 'light';
     setTheme(savedTheme);
-
-    // Chat functions
-    msgInput.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        sendMessage();
-      }
-    });
-
-    chatForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-      sendMessage();
-    });
 
     function addMessage(sender, text) {
       const msg = document.createElement('div');
       msg.className = `message ${sender}`;
-
-      // Gunakan marked untuk keduanya biar konsisten
       let content = marked.parse(text);
-
-      // Hilangkan margin default <p> biar tidak dobel spasi
       content = content.replace(/^<p>/, '').replace(/<\/p>\s*$/, '');
-
       msg.innerHTML = `
         <div class="bubble">
           <b>${sender === 'user' ? 'User' : 'Bot'}:</b><br>${content}
         </div>
       `;
-
       chatBox.appendChild(msg);
       chatBox.scrollTop = chatBox.scrollHeight;
     }
@@ -249,7 +250,6 @@
     async function sendMessage() {
       const message = msgInput.value.trim();
       if (!message) return;
-
       addMessage('user', message);
       msgInput.value = '';
 
@@ -283,7 +283,18 @@
       }
     }
 
-    // Tambahkan pesan pembuka saat halaman load
+    msgInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    chatForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      sendMessage();
+    });
+
     window.onload = () => {
       addMessage('bot', 'Hallo, saya adalah Monitoring Assistant andalan kamu. Silahkan dapat menanyakan apa saja khususnya seputar dashboard dan data monitoring 🙏.');
     };
