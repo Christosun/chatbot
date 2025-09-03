@@ -32,7 +32,6 @@
     h2 {
       margin-top: 0;
       text-align: center;
-
       /* trik teks gradient */
       background: var(--title-gradient);
       -webkit-background-clip: text;
@@ -62,30 +61,25 @@
       position: relative;
     }
 
-    h2 {
-      margin-top: 0;
-      text-align: center;
-    }
-
     #themeToggle {
       position: absolute;
-      top: 20px;
+      top: 28px;
       right: 20px;
-      width: 50px;
-      height: 26px;
+      width: 36px;
+      height: 18px;
       background: linear-gradient(135deg, #000000, #929191);
       border-radius: 50px;
       border: none;
       cursor: pointer;
       display: flex;
       align-items: center;
-      padding: 3px;
+      padding: 2px;
       transition: background 0.4s ease;
     }
 
     #themeToggle .toggle-circle {
-      width: 20px;
-      height: 20px;
+      width: 14px;
+      height: 14px;
       background: white;
       border-radius: 50%;
       box-shadow: 0 0 5px rgba(0,0,0,0.2);
@@ -98,7 +92,7 @@
     }
 
     body.dark-mode #themeToggle .toggle-circle {
-      transform: translateX(24px);
+      transform: translateX(18px);
       background: #f1f1f1;
     }
 
