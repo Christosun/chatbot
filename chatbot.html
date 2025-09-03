@@ -31,12 +31,13 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
+      height: 100vh;          /* penuh layar */
       margin: 0;
-      padding: 10px;
+      padding: 0;
       color: var(--text-color);
       transition: background 0.3s, color 0.3s;
       box-sizing: border-box;
+      overflow: hidden;       /* hilangkan scroll body */
     }
 
     h2 {
@@ -59,8 +60,9 @@
       position: relative;
       display: flex;
       flex-direction: column;
-      height: 90vh;
-      max-height: 700px;
+      height: 100vh;          /* penuh layar */
+      max-height: none;
+      box-sizing: border-box;
     }
 
     #themeToggle {
@@ -101,7 +103,7 @@
       flex: 1;
       border: 1px solid #ddd;
       padding: 10px;
-      overflow-y: auto;
+      overflow-y: auto;     /* hanya ini yang scroll */
       background-color: var(--chat-bg);
       border-radius: 8px;
       margin-bottom: 10px;
@@ -178,8 +180,9 @@
         font-size: 20px;
       }
       .chat-container {
+        border-radius: 0;   /* rapih full layar */
         padding: 12px;
-        height: 95vh;
+        height: 100vh;
       }
       button[type="submit"] {
         padding: 8px 12px;
