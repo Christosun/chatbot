@@ -5,7 +5,8 @@
   <title>AI Monitoring Assistant</title>
   <style>
     :root {
-      --bg-color: #f0f2f5;
+      /*--bg-color: #f0f2f5;*/
+      --bg-color: linear-gradient(to bottom, #464646, #f0f2f5);
       --card-bg: white;
       --chat-bg: #f9f9f9;
       --text-color: #000;
@@ -17,7 +18,8 @@
     }
 
     body.dark-mode {
-      --bg-color: #1e1e1e;
+      /*--bg-color: #1e1e1e;*/
+      --bg-color: linear-gradient(to bottom, #1e1e1e, #464646);
       --card-bg: #2c2c2c;
       --chat-bg: #333;
       --text-color: #eee;
@@ -69,11 +71,35 @@
       position: absolute;
       top: 20px;
       right: 20px;
-      background: none;
+      width: 50px;
+      height: 26px;
+      background: linear-gradient(135deg, #000000, #929191);
+      border-radius: 50px;
       border: none;
-      font-size: 20px;
       cursor: pointer;
-      color: var(--text-color);
+      display: flex;
+      align-items: center;
+      padding: 3px;
+      transition: background 0.4s ease;
+    }
+
+    #themeToggle .toggle-circle {
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+      transition: transform 0.4s ease, background 0.4s ease;
+    }
+
+    /* mode dark */
+    body.dark-mode #themeToggle {
+      background: linear-gradient(135deg, #7d7f7c, #e7e7e7);
+    }
+
+    body.dark-mode #themeToggle .toggle-circle {
+      transform: translateX(24px);
+      background: #f1f1f1;
     }
 
     #chatBox {
@@ -154,7 +180,10 @@
 </head>
 <body>
   <div class="chat-container">
-    <button id="themeToggle" title="Change Mode">🌙</button>
+    <button id="themeToggle" title="Change Mode">
+      <span class="toggle-circle"></span>
+    </button>
+
     <h2>AI Monitoring Assistant</h2>
     <div id="chatBox"></div>
     <form id="chatForm">
