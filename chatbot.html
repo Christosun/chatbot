@@ -11,6 +11,8 @@
       --text-color: #000;
       --bot-bubble: #f1f0f0;
       --user-bubble: #DCF8C6;
+      /* gradient untuk light mode */
+      --title-gradient: linear-gradient(90deg, #104bc2, #2aa24e);
     }
 
     body.dark-mode {
@@ -20,6 +22,18 @@
       --text-color: #eee;
       --bot-bubble: #444;
       --user-bubble: #DCF8C6;
+      /* gradient untuk dark mode */
+      --title-gradient: linear-gradient(90deg, #61d87b, #fffb00);
+    }
+    h2 {
+      margin-top: 0;
+      text-align: center;
+
+      /* trik teks gradient */
+      background: var(--title-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     body {
