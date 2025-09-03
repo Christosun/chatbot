@@ -8,7 +8,8 @@
     :root {
       --bg-color: linear-gradient(to bottom, #464646, #f0f2f5);
       --card-bg: rgba(255, 255, 255, 0.85);   /* semitransparan */
-      --chat-bg: #f9f9f9;
+      /*--chat-bg: #f9f9f9;*/
+      --chat-bg: linear-gradient(to bottom, #464646, #f0f2f5);
       --text-color: #000;
       --bot-bubble: rgba(241, 240, 240, 0.8);
       --user-bubble: rgba(220, 248, 198, 0.9);
@@ -18,7 +19,8 @@
     body.dark-mode {
       --bg-color: linear-gradient(to bottom, #1e1e1e, #464646);
       --card-bg: rgba(44, 44, 44, 0.85);
-      --chat-bg: #333;
+      /*--chat-bg: #333;*/
+      --chat-bg: linear-gradient(to bottom, #1e1e1e, #464646);
       --text-color: #eee;
       --bot-bubble: rgba(68, 68, 68, 0.8);
       --user-bubble: rgba(220, 248, 198, 0.9);
@@ -103,7 +105,7 @@
       border: 1px solid #ddd;
       padding: 10px;
       overflow-y: auto;     /* hanya ini yang scroll */
-      background-color: var(--chat-bg);
+      background: var(--chat-bg);
       border-radius: 8px;
       margin-bottom: 10px;
     }
