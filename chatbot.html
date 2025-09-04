@@ -14,6 +14,9 @@
       --bot-bubble: rgba(241, 240, 240, 0.8);
       --user-bubble: rgba(220, 248, 198, 0.9);
       --title-gradient: radial-gradient(circle, #4CAF50, #000000);
+      --scroll-track: rgba(200, 200, 200, 0.3);
+      --scroll-thumb: rgba(120, 120, 120, 0.6);
+      --scroll-thumb-hover: rgba(100, 100, 100, 0.8);
     }
 
     body.dark-mode {
@@ -25,6 +28,9 @@
       --bot-bubble: rgba(68, 68, 68, 0.8);
       --user-bubble: rgba(220, 248, 198, 0.9);
       --title-gradient: radial-gradient(circle, #4CAF50, #ffffff);
+      --scroll-track: rgba(60, 60, 60, 0.4);
+      --scroll-thumb: rgba(180, 180, 180, 0.6);
+      --scroll-thumb-hover: rgba(200, 200, 200, 0.8);
     }
 
     body {
@@ -170,10 +176,28 @@
       cursor: pointer;
       font-size: 14px;
     }
-
+    
     button[type="submit"]:hover {
       background-color: #45a049;
     }
+    /* Scrollbar modern elegan */
+    #chatBox::-webkit-scrollbar {
+      width: 10px;
+    }
+    #chatBox::-webkit-scrollbar-track {
+      background: var(--scroll-track); border-radius: 8px;
+    }
+    #chatBox::-webkit-scrollbar-thumb {
+      background: var(--scroll-thumb); border-radius: 8px; transition: background 0.3s;
+    }
+    #chatBox::-webkit-scrollbar-thumb:hover {
+      background: var(--scroll-thumb-hover);
+    }
+    /* Firefox */
+    #chatBox {
+      scrollbar-width: thin; scrollbar-color: var(--scroll-thumb) var(--scroll-track);
+    }
+
     /* Desktop: kasih ruang atas-bawah */
     @media (min-width: 768px) {
       body {
